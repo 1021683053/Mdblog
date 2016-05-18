@@ -7,4 +7,4 @@
 ### 目录
 
 * [JavaScript基础知识](#)
-  * [JavaScript语言精粹(通读)](#)
+    * [JavaScript语言精粹(通读)](#)
