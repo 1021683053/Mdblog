@@ -6,4 +6,4 @@
 
 ### 目录
 
-    * [JavaScript语言精粹(通读)](./Mdbook/JavaScript语言精粹.md)
+    *[JavaScript语言精粹(通读)](./Mdbook/JavaScript语言精粹.md)
