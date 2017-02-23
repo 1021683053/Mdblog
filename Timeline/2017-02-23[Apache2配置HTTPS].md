@@ -56,7 +56,8 @@ HTTP 严格传输安全（HSTS）功能使 Web 服务器告知浏览器绝不使
       RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R=301]
   ```
 
-## 附录
+
+# 附录
 
 ### 链接
 
