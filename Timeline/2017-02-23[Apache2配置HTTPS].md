@@ -1,16 +1,23 @@
-# `Apache2`配置 `HTTPS`
+# Apache2 配置 HTTPS
 
-## 安装 `Apache2`
+*注：这里只提供Ubuntu方法，其他系统类比可得*
 
-## `Apache2` 配置目录
+### 安装 `Apache2`
 
-## 生成自签证 `HTTPS`
+```
+    apt-get update
+    apt-get install apache2
+```
 
-## `HTTP` 重定向 `HTTPS`
+### `Apache2` 配置目录
 
-## 使用 `CertBot` 生成信任证书
+### 生成自签证 `HTTPS`
 
-## 严格传输安全 `HSTS`
+### `HTTP` 重定向 `HTTPS`
+
+### 使用 `CertBot` 生成信任证书
+
+### 严格传输安全 `HSTS`
 
 引用资源: [Mozilla Developer Network](https://developer.mozilla.org/zh-CN/docs/Security/HTTP_Strict_Transport_Security)
 
@@ -20,7 +27,7 @@ HTTP 严格传输安全（HSTS）功能使 Web 服务器告知浏览器绝不使
 
 各种服务器配置参考：[HTTP Strict Transport Security for Apache, NGINX and Lighttpd](https://raymii.org/s/tutorials/HTTP_Strict_Transport_Security_for_Apache_NGINX_and_Lighttpd.html)
 
-  1.  添加扩展 `mod_headers.so`&`mod_rewrite.so`
+  1.    添加扩展 `mod_headers.so`&`mod_rewrite.so`
   ```shell
     cd /etc/apache2/mods-enabled
 
@@ -29,14 +36,14 @@ HTTP 严格传输安全（HSTS）功能使 Web 服务器告知浏览器绝不使
     ln -s ../mods_mods-available/headers.load
   ```
 
-  -   添加 `Header` （修改SSL虚拟主机）
+  2.    添加 `Header` （修改SSL虚拟主机）
   ```bash
     <VirtualHost 192.168.1.1:443>
         Header always set Strict-Transport-Security “max-age=31536000; includeSubDomains”
     </VirtualHost>
   ```
 
-  -   添加重定向 修改HTTP虚拟主机
+  3.    添加重定向 修改HTTP虚拟主机
   ```bash
       RewriteEngine On
       RewriteCond %{HTTPS} off
