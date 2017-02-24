@@ -79,7 +79,13 @@ HTTP 严格传输安全（HSTS）功能使 Web 服务器告知浏览器绝不使
 
 # 附录
 
-### 链接
+### HTTPS相关网站
+
+1. [https://www.geocerts.com/ssl_checker](https://www.geocerts.com/ssl_checker) --判断SSL证书错误点  
+
+2. [https://www.ssllabs.com](https://www.ssllabs.com/) --HTTPS公认评分网站
+
+### Linux链接
 
 1. 软连接
   * 软链接，以路径的形式存在。类似于Windows操作系统中的快捷方式  
