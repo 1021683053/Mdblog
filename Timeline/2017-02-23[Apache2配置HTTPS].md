@@ -11,6 +11,26 @@
 
 ### `Apache2` 配置目录
 
+```
+#       /etc/apache2/             //  Apache2根目录
+#       |-- apache2.conf          //  Apache2配置文件
+#       |-- conf-available        //  可用启配置目录（未开启）
+#       |   `-- *.conf
+#       |-- conf-enabled          //  已开启配置目录
+#       |   `-- *.conf
+#       |-- mods-available        //  可用模块目录（未开启）
+#       |   |-- *.load
+#       |   `-- *.conf
+#       |-- mods-enabled          //  已开启模块配置目录
+#       |   |-- *.load
+#       |   `-- *.conf
+#       |-- ports.conf            //  端口配置文件
+#       |-- sites-available       //  可用虚拟主机vhost配置目录（未开启）
+#       |   `-- *.conf
+#       `-- sites-enabled         //  已开启虚拟主机vhost配置目录
+#           `-- *.conf
+```
+
 ### 生成自签证 `HTTPS`
 
 ### `HTTP` 重定向 `HTTPS`
