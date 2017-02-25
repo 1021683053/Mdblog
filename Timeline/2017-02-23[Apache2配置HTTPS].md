@@ -33,6 +33,74 @@
 
 ### 生成自签证 `HTTPS`
 
+创建根证书的私匙
+
+```
+  openssl genrsa -out xxxx.key 2048
+```
+
+利用私钥创建签名请求
+```
+  openssl req -new -subj "/C=CN/ST=Zhejiang/L=HzngZhou/O=Your Company Name/OU=xxxx.com/CN=xxxx.com" -key xxxx.key -out xxxx.csr
+```
+
+说明：这里/C表示国家(Country)，只能是国家字母缩写，如CN、US等；/ST表示州或者省(State/Provice)；/L表示城市或者地区(Locality)；/O表示组织名(Organization Name)；/OU其他显示内容，一般会显示在颁发者这栏。
+
+将带口令的私钥移除
+
+```
+  mv xxxx.key xxxx.origin.key
+  openssl rsa -in xxxx.origin.key -out xxxx.key
+```
+
+用Key签名证书
+
+```
+openssl x509 -req -days 3650 -in xxxx.csr -signkey xxxx.key -out xxxx.crt
+```
+
+为HTTPS准备的证书需要注意，创建的签名请求的CN必须与域名完全一致，否则无法通过浏览器验证
+
+```
+  xxxx.crt         自签名的证书  
+  xxxx.csr         证书的请求  
+  xxxx.key         不带口令的Key  
+  xxxx.origin.key  带口令的Key
+```
+
+### 签证配置文件说明
+
+    SSLEngine on 启用SSL功能
+    SSLCertificateFile 证书文件domain.crt
+    SSLCertificateKeyFile 私钥文件domain.key
+    SSLCertificateChainFile 证书链文件 CA.crt
+
+### 配置Apache证书
+
+    1. 打开SSL模块
+
+    ```shell
+      cd /etc/apache2/mods-enabled
+      ln -s ../mods_mods-available/ssl.load
+      ln -s ../mods_mods-available/ssl.conf
+    ```
+
+    2. 把 `default-ssl.conf` 软链到 `sites-enabled`
+
+    ```
+      cd /etc/apache2/sites-enabled/
+      ln -s ../sites-available/default-ssl.conf
+    ```
+
+    3. 新增或者打开配置
+
+    ```
+      SSLEngine on
+      SSLCertificateFile 证书路径/xxxx.crt
+      SSLCertificateKeyFile 证书路径/xxxx.key
+    ```
+
+
 ### `HTTP` 重定向 `HTTPS`
 
 ### 使用 `CertBot` 生成信任证书
