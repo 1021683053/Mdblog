@@ -68,7 +68,20 @@ openssl x509 -req -days 3650 -in xxxx.csr -signkey xxxx.key -out xxxx.crt
   xxxx.origin.key  带口令的Key
 ```
 
-### 签证配置文件说明
+### 理解 数字证书（Certificate） crt, csr, key
+
+
+1. 使用数字证书能够提高用户的可信度
+2. 数字证书中的公钥，能够与服务端的私钥配对使用，实现数据传输过程中的加密和解密
+3. 在证认使用者身份期间，使用者的敏感个人数据并不会被传输至证书持有者的网络系统上X.509证书包含三个文件：key，csr，crt。
+    - key是服务器上的私钥文件，用于对发送给客户端数据的加密，以及对从客户端接收到数据的解密
+    - csr是证书签名请求文件，用于提交给证书颁发机构（CA）对证书签名
+    - crt是由证书颁发机构（CA）签名后的证书，或者是开发者自签名的证书，包含证书持有人的信息，持有人的公钥，以及签署者的签名等信息
+
+备注：在密码学中，X.509是一个标准，规范了公开秘钥认证、证书吊销列表、授权凭证、凭证路径验证算法等。
+
+
+### Apache SSL 配置文件说明
 
     SSLEngine on 启用SSL功能
     SSLCertificateFile 证书文件domain.crt
@@ -100,10 +113,26 @@ openssl x509 -req -days 3650 -in xxxx.csr -signkey xxxx.key -out xxxx.crt
       SSLCertificateKeyFile 证书路径/xxxx.key
     ```
 
+### 使用 `CertBot` 生成信任证书
+
+免费的HTTPS认证很多，最出名的为 **Let’s Encrypt** [官网](https://letsencrypt.org)
+
+CertBot是什么？一个自动生成 Let’s Encrypt 工具（自动）
+
+[Github](https://github.com/certbot/certbot) [官网](https://certbot.eff.org)
+
+官网有教程，这里就不详细描述安装过程。
+
 
 ### `HTTP` 重定向 `HTTPS`
 
-### 使用 `CertBot` 生成信任证书
+```shell
+    RewriteEngine on
+    RewriteCond %{SERVER_PORT} !^443$
+    RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R=301]
+```
+
+重定向不能完全保证安全问题，所以需要使用严格安全传输 `HSTS`
 
 ### 严格传输安全 `HSTS`
 
