@@ -96,6 +96,7 @@ openssl x509 -req -days 3650 -in xxxx.csr -signkey xxxx.key -out xxxx.crt
       cd /etc/apache2/mods-enabled
       ln -s ../mods_mods-available/ssl.load
       ln -s ../mods_mods-available/ssl.conf
+      ln -s ../mods_mods-available/socache_shmcb.load
     ```
 
     2. 把 `default-ssl.conf` 软链到 `sites-enabled`
