@@ -106,3 +106,81 @@ for( var i = 0; i<arr.length; i++ ){
 console.log(newarr);
 //=> [1, 22, 33, 44, 4455]
 ```
+去重，去掉包含某个元素的内容的其中一个
+```javascript
+//3. 只保留aa，bb，cc开始的任意一个
+var arr = ['aa1234567','bb1234567','aa333222','bb3431233','cc123321','bb123321'];
+var newarr = arr.sort();
+var newarr = [arr[0]];
+for( var i = 1; i<arr.length; i++ ){
+    if( newarr[newarr.length-1].indexOf(arr[i].slice(0,2)) ){
+        newarr.push(arr[i]);
+    }
+}
+console.log(newarr);
+//=> ["aa1234567", "bb123321", "cc123321"]
+```
+**2. 排序问题**
+sort() 默认是先对比第一个元素，在对比第二个元素 的升序排列，也就是 `[11,2,22,111]` 排序结果为 `[11,111,2,22]`
+```javascript
+// 1. 基础排序方法
+var arr = [1,23,4,2,1,3];
+arr.sort(function(a, b){
+    return a-b;
+})
+// 理解：a，b   a(对比数据的前者), b(对比数据的后者) return true(替换位置)，false(不替换位置)
+```
+
+**3. 归纳函数**
+```javascript
+//去重复
+Array.prototype.unique = function(){
+    this.sort();
+    var re=[this[0]];
+    for(var i = 1; i < this.length; i++)
+    {
+        if( this[i] !== re[re.length-1])
+        {
+            re.push(this[i]);
+        }
+    }
+    return re;
+}
+
+//并集
+Array.prototype.union = function(a){
+    return this.concat(a).unique();
+}
+
+//差集
+Array.prototype.minus = function(a){
+    var result =[];
+    var clone = this;
+    for(var i=0; i < clone.length; i++){
+        var flag = true;
+        for(var j=0; j < a.length; j++){   
+            if(clone[i] == a[j])   
+            flag = false;   
+        }   
+        if(flag)   
+        result.push(clone[i]);
+    }
+    return result.unique();
+}
+
+// 交集
+Array.prototype.intersect = function(b) {
+    var result = [];
+    var a = this;
+    for(var i = 0; i < b.length; i ++) {
+        var temp = b[i];
+        for(var j = 0; j < a.length; j ++) {
+            if(temp === a[j]) {
+                result.push(temp);
+                break;
+            }
+        }
+    }
+    return result.unique();
+}
+```
