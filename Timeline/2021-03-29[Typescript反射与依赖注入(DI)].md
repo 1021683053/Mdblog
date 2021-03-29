@@ -1,15 +1,15 @@
 # Typescript 反射与依赖注入(DI)
 
 ## 前言
-> 依赖注入的优点 依赖注入降低了依赖和被依赖类型间的耦合，在修改被依赖的类型实现时，不需要修改依赖类型的实现.  
-传统项目中，例如 React 项目，我们的依赖结构是树状的，依赖结构本身没问题，不过依赖查找也是由文件目录结构决定的。会再一部分重写某个模块的时候出现，所有依赖这个模块的文件的所有引入路径都需要修改，并产生连锁反应。传统在需要继承重写的项目中，我们不但需要关心类的接口实现，也需要关心类实例化需要其他类作为依赖。
+依赖注入的优点 依赖注入降低了依赖和被依赖类型间的耦合，在修改被依赖的类型实现时，不需要修改依赖类型的实现.
+传统项目中，例如 React 项目，我们的依赖结构是树状的，依赖结构本身没问题，不过依赖查找也是由文件目录结构决定的。再一部分重写模块的时候出现，所有依赖这个模块的文件的所有引入路径都需要修改，并产生连锁反应。传统在需要继承重写的项目中，我们不但需要关心类的接口实现，也需要关心类实例化需要其他类作为依赖。
 前端依赖注入主要提供一下能力
-1，自动实例化注入（类不参与被依赖类的实例化）
+1，自动实例化注入（类不参与被依赖类的实例化, 实例化交给三方控制, 解耦类与类之间的关系）
 2，可被独立替换（类可以实现接口所有重写与覆盖都基于接口开发）
 
 ## Reflect Metadata
 反射源数据在 Typescript 中只是一个扩展的配置存在，需要做一定配置才可以开启
-* 安装依赖 `npm I reflect-metadata —save` 
+* 安装依赖 `npm i reflect-metadata —save` 
 * `tsconfig.json` 配置 `experimentalDecorators` 与 `emitDecoratorMetadata` 为 `true` 开启
 
 **可以装饰的内容**
@@ -24,18 +24,18 @@
 * 返回类型元数据 使用元数据键`design:returntype`
 
 **相关文档**
-[Metadata Proposal - ECMAScript](https://rbuckton.github.io/reflect-metadata/#introduction)
-[GitHub - rbuckton/reflect-metadata: Prototype for a Metadata Reflection API for ECMAScript](https://github.com/rbuckton/reflect-metadata)
+- [Metadata Proposal - ECMAScript](https://rbuckton.github.io/reflect-metadata/#introduction)
+- [GitHub - rbuckton/reflect-metadata](https://github.com/rbuckton/reflect-metadata)
 
 
 ## 注解与装饰器
-* 注解（Annotation）：仅提供附加元数据支持，并不能实现任何操作。需要另外的 Scanner 根据元数据执行相应操作。
+* 注解（Annotation）：仅提供附加元数据支持，并不能实现任何操作。需要另外的扫描器，根据元数据执行相应操作。
 * 装饰器（Decorator）：仅提供定义劫持，能够对类及其方法的定义并没有提供任何附加元数据的功能。
 
-> 从实现功能角度，两者没有本质区别，只是专注做的事情不一样。   
+> 从实现功能角度，两者没有本质区别，只是专注做的事情不一样。
 
 **相关文章**
-[装饰器与注解区别](https://blog.thoughtram.io/angular/2015/05/03/the-difference-between-annotations-and-decorators.html)
+- [装饰器与注解区别](https://blog.thoughtram.io/angular/2015/05/03/the-difference-between-annotations-and-decorators.html)
 
 ## Typescript 中的 Reflect Metadata 使用
 > 由于Typescript 最终还是需要转换成为JavaScript去运行，所以Typescript中的反射实际还是再运行时。Typescript 中的 design:paramtypes 中的意义就不是很大，interface 最终显示类型为一个Object，只有入参类型是需要注入类本身，才可以获取到其实际类型。  
@@ -259,13 +259,5 @@ service.print();
 * 每个Class都可以重新绑定
 * 注入方式是构造函数（还有其他方式，这里就不一一实现了）
 * 注入分为两种，1,基于 id 的注入 @Inject. 2, 基于类型的注入
-* 循环注入（没有实现单例，也没处理相互依赖问题）
-
-
-
-
-
-
-
-
+* 循环注入（没有实现单例，也没处理循环依赖问题）
 
